@@ -39,6 +39,7 @@ AI (Optional)
 * Google Gemini
 
 ---
+```
 ## Project Structure
 civicbridge/
 │
@@ -132,6 +133,7 @@ civicbridge/
 │
 └── scripts/
     └── seedDatabase.js
+```
 # 📦 Core Features
 
 ## 1️⃣ Scheme Navigator
