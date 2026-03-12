@@ -134,6 +134,122 @@ civicbridge/
 └── scripts/
     └── seedDatabase.js
 ```
+🧭 Team Git Workflow (Step-by-Step)
+1️⃣ Clone the Repository (First Time Only)
+
+Each teammate does this once.
+
+git clone https://github.com/your-team/civicbridge.git
+cd civicbridge
+
+Now the project exists on their computer.
+
+2️⃣ Always Pull Latest Code Before Starting Work
+
+Before doing any work, sync with the latest main.
+
+git checkout main
+git pull origin main
+
+This ensures you are working on the latest version of the project.
+
+3️⃣ Create a Feature Branch
+
+Never work on main.
+
+Create a branch for your task.
+
+Example:
+
+git checkout -b feature/navbar
+
+Other examples:
+
+feature/scheme-navigator
+feature/report-issue
+feature/map-system
+feature/backend-api
+
+Now you are working safely in your own branch.
+
+4️⃣ Work on Your Feature
+
+Edit files normally.
+
+Example:
+
+src/components/Navbar.jsx
+5️⃣ Stage and Commit Changes
+
+When you complete a logical piece of work:
+
+git add .
+git commit -m "Add navbar component"
+
+Good commit messages:
+
+Add scheme navigator form
+Implement issue reporting API
+Fix navbar routing
+
+Avoid:
+
+update
+stuff
+changes
+6️⃣ Push Your Feature Branch
+
+Upload your branch to GitHub.
+
+git push origin feature/navbar
+
+Now the branch appears on GitHub.
+
+7️⃣ Create a Pull Request (PR)
+
+Go to the repository on GitHub.
+
+You will see:
+
+Compare & Pull Request
+
+Create PR:
+
+feature/navbar → main
+
+This means:
+
+“Please merge my feature into the main branch.”
+
+8️⃣ Review and Merge
+
+Someone checks the code.
+
+If everything is fine:
+
+Click Merge Pull Request.
+
+Now the main branch updates.
+
+9️⃣ Everyone Syncs After Merge
+
+After a PR merges, everyone should update their local repo.
+
+git checkout main
+git pull origin main
+
+Now everyone has the updated code.
+
+🔁 Daily Workflow (Short Version)
+
+Every day your team follows this:
+
+git checkout main
+git pull origin main
+git checkout -b feature/your-feature
+
+Work → commit → push → PR.
+
 # 📦 Core Features
 
 ## 1️⃣ Scheme Navigator
