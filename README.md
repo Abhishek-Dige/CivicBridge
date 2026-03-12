@@ -153,6 +153,117 @@ git pull origin main
 
 This ensures you are working on the latest version of the project.
 
+## 🚀 Project Setup (For Contributors)
+
+Follow these steps to run the project locally.
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone <repo-url>
+cd civicbridge
+```
+
+---
+
+### 2️⃣ Setup Frontend
+
+Navigate to the frontend folder and install dependencies.
+
+```bash
+cd frontend
+npm install
+```
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+Frontend will run at:
+
+```
+http://localhost:5173
+```
+
+---
+
+### 3️⃣ Setup Backend
+
+Open a new terminal and navigate to the backend folder.
+
+```bash
+cd backend
+npm install
+```
+
+---
+
+### 4️⃣ Create Environment Variables
+
+Inside the **backend folder**, create a `.env` file.
+
+Example:
+
+```
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_KEY=your_supabase_anon_key
+PORT=5000
+```
+
+Ask the team lead for the Supabase credentials.
+
+---
+
+### 5️⃣ Start Backend Server
+
+Run the backend:
+
+```bash
+npm run dev
+```
+
+Backend will run at:
+
+```
+http://localhost:5000
+```
+
+---
+
+### 6️⃣ Running the Full Project(not required if you are only working on frontend)
+
+You should now have **two terminals running**:
+
+Terminal 1 (frontend)
+
+```bash
+cd frontend
+npm run dev
+```
+
+Terminal 2 (backend)
+
+```bash
+cd backend
+npm run dev
+```
+
+---
+
+### ⚠️ Important Notes
+
+* Do **not commit `.env` files**
+* Always pull latest changes before starting work
+
+```bash
+git pull origin main
+```
+
+* Work on **feature branches**, not directly on `main`
+
+
 3️⃣ Create a Feature Branch
 
 Never work on main.
