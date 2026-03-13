@@ -139,7 +139,7 @@ civicbridge/
 
 Each teammate does this once.
 
-git clone https://github.com/your-team/civicbridge.git
+git clone <repo - link>
 cd civicbridge
 
 Now the project exists on their computer.
@@ -768,11 +768,5 @@ Possible extensions:
 
 ---
 
-# 🏆 Goal
 
-Deliver a **working MVP by Day 10** and spend the remaining time **adding innovation and polish** to make CivicBridge stand out in hackathons.
-
----
-
-If you want, I can also give you a **clean GitHub folder structure + task distribution for a 3–4 person team** (this makes hackathon execution much smoother).
 
