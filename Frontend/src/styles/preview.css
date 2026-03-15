@@ -1,0 +1,160 @@
+/* preview.css */
+
+.preview-section {
+  position: relative;
+  background: var(--color-background);
+  padding-bottom: 6rem;
+}
+
+/* Background gradient for depth */
+.preview-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  background: var(--gradient-accent);
+  opacity: 0.05;
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  z-index: 1;
+}
+
+.preview-container {
+  position: relative;
+  z-index: 5;
+  padding: 0 1rem;
+}
+
+/* Split Dashboard Representation */
+.mock-dashboard {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+  display: flex;
+  overflow: hidden;
+  height: 600px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.dashboard-half {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Citizens Portal Preview Side (Blue Theme) */
+.citizens-preview {
+  background: linear-gradient(135deg, rgba(239, 246, 255, 0.7), rgba(255, 255, 255, 0.3));
+  border-right: 1px solid rgba(0,0,0,0.05);
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.preview-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+}
+
+.mock-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mock-card {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(0,0,0,0.02);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mock-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(37,99,235,0.1);
+}
+
+.mock-lines {
+  flex: 1;
+}
+
+.mock-line-primary {
+  height: 12px;
+  width: 70%;
+  background: rgba(37,99,235,0.2);
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.mock-line-secondary {
+  height: 8px;
+  width: 40%;
+  background: rgba(100,116,139,0.1);
+  border-radius: 4px;
+}
+
+/* Scheme Navigator Preview Side (Green Theme) */
+.scheme-preview {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(236, 253, 245, 0.7));
+}
+
+.mock-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.mock-scheme-card {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(0,0,0,0.02);
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mock-scheme-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(16,185,129,0.1);
+}
+
+.mock-scheme-line {
+  height: 8px;
+  width: 100%;
+  background: rgba(16,185,129,0.2);
+  border-radius: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mock-dashboard {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .citizens-preview {
+    border-right: none;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+}

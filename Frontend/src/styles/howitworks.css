@@ -1,0 +1,102 @@
+/* howitworks.css */
+
+.how-it-works-section {
+  background: white;
+}
+
+.timeline-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  margin-top: 4rem;
+}
+
+/* Horizontal Connector Line */
+.timeline-line {
+  position: absolute;
+  top: 40px; /* Aligns with middle of the icon circle */
+  left: 10%;
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(37,99,235,0.2), rgba(16,185,129,0.2));
+  z-index: 1;
+}
+
+.step-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  padding: 0 1rem;
+}
+
+.step-number {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid white;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-primary-blue);
+  margin-bottom: 1.5rem;
+  position: relative;
+  transition: all var(--transition-normal);
+}
+
+.step-card:nth-child(2) .step-number {
+  color: var(--color-text-dark);
+}
+
+.step-card:nth-child(3) .step-number {
+  color: var(--color-primary-green);
+}
+
+.step-card:hover .step-number {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-glow);
+}
+
+.step-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-bottom: 0.75rem;
+}
+
+.step-desc {
+  font-size: 1rem;
+  color: var(--color-text-light);
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .timeline-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+  }
+  
+  .timeline-line {
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, rgba(37,99,235,0.2), rgba(16,185,129,0.2));
+  }
+  
+  .step-card {
+    width: 100%;
+    max-width: 400px;
+  }
+}
