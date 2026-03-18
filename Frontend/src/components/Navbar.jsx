@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, X, ArrowRight, ShieldCheck } from 'lucide-react';
 import '../styles/navbar.css';
+import logo from "../assets/cilogo.png";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -9,15 +10,17 @@ const Navbar = () => {
 
   return (
     <header className="navbar-header navbar-glass">
+      
       <div className="container navbar-container">
         {/* Logo */}
         <a href="/" className="navbar-logo">
-          <div className="logo-icon">
-            <ShieldCheck size={24} />
-          </div>
-          CivicBridge
+          <img
+            src={logo}
+            alt="CivicBridge Logo"
+            className="logo-img"
+          />
+          <span>CivicBridge</span>
         </a>
-
         {/* Desktop Links */}
         <nav className="navbar-links">
           <a href="#home" className="nav-link">Home</a>
