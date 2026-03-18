@@ -29,13 +29,16 @@
 .navbar-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-weight: 800;
-  font-size: 1.25rem;
-  letter-spacing: -0.03em;
-  color: var(--color-text-dark);
+  gap: 10px;
+  font-weight: 600;
+  font-size: 18px;
 }
-
+.logo-img {
+  height: 144px;
+  width: 144px;
+  object-fit: contain;
+  border-radius: 16px;
+}
 .logo-icon {
   display: flex;
   align-items: center;
