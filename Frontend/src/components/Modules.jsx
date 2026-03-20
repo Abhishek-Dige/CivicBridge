@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Search, MapPin, ArrowRight, ShieldCheck, FileText } from 'lucide-react';
 import '../styles/modules.css';
 
@@ -44,9 +45,9 @@ const Modules = () => {
               </li>
             </ul>
             
-            <button className="btn btn-secondary" style={{marginTop: '2rem'}}>
-              Explore Schemes <ArrowRight size={18} />
-            </button>
+            <Link to="/schemes" className="btn btn-secondary" style={{marginTop: '2rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center'}}>
+              Explore Schemes <ArrowRight size={18} style={{marginLeft: '0.5rem'}} />
+            </Link>
           </div>
           
           {/* Visual Connector ensuring they look like one platform */}
