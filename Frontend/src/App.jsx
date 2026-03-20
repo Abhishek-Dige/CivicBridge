@@ -1,25 +1,21 @@
 import React from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Modules from './components/Modules';
-import Features from './components/Features';
-import HowItWorks from './components/HowItWorks';
-import Impact from './components/Impact';
-import Footer from './components/Footer';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import SchemeNavigatorPage from './pages/SchemeNavigatorPage';
+import EligibilityFormPage from './pages/EligibilityFormPage';
+import './styles/schemes.css';
 
 function App() {
   return (
-    <div className="app-container">
-      <Navbar />
-      <main>
-        <Hero />
-        <Modules />
-        <Features />
-        <HowItWorks />
-        <Impact />
-      </main>
-      <Footer />
-    </div>
+    <Router>
+      <div className="app-container">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/schemes" element={<SchemeNavigatorPage />} />
+          <Route path="/eligibility" element={<EligibilityFormPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
