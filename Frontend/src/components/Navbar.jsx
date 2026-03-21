@@ -47,9 +47,9 @@ const Navbar = () => {
 
         {/* Desktop CTA */}
         <div className="navbar-actions">
-          <a href="#report" className="btn btn-primary">
+          <Link to="/citizen/report" className="btn btn-primary">
             Report an Issue <ArrowRight size={18} />
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -79,9 +79,9 @@ const Navbar = () => {
             </>
           )}
           <div style={{ padding: '1rem 1.5rem' }}>
-            <a href="#report" className="btn btn-primary" style={{ width: '100%' }} onClick={toggleMobileMenu}>
+            <Link to="/citizen/report" className="btn btn-primary" style={{ width: '100%' }} onClick={toggleMobileMenu}>
               Report an Issue <ArrowRight size={18} />
-            </a>
+            </Link>
           </div>
         </div>
       </div>
