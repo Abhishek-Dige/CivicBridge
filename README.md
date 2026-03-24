@@ -1,7 +1,7 @@
 # CivicBridge 🚀
 
 **Open Platform for Discovering Public Schemes and Reporting Civic Issues**
-
+being built by Parth Badgire https://github.com/parthbadgire-code, Abhishek Dige and Smit Jain
 CivicBridge is a civic-tech platform that helps citizens:
 
 * Discover **government schemes they are eligible for**
