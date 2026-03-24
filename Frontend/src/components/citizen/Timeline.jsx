@@ -25,9 +25,9 @@ const Timeline = ({ status }) => {
         const isLast  = idx === STEPS.length - 1;
 
         return (
-          <div key={step.key} className="flex gap-4">
+          <div key={step.key} className="timeline-step-row">
             {/* Icon + connector */}
-            <div className="flex flex-col items-center">
+            <div className="timeline-icon-col">
               <div
                 style={{
                   width: 36,

@@ -35,38 +35,34 @@ const ImageUpload = ({ onImageChange }) => {
           onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
           onDragLeave={() => setIsDragging(false)}
           onDrop={handleDrop}
-          className={`border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 ${
-            isDragging
-              ? 'border-blue-400 bg-blue-50'
-              : 'border-slate-200 bg-slate-50 hover:border-blue-300 hover:bg-blue-50/40'
-          }`}
+          className={`image-upload-dropzone ${isDragging ? 'dragging' : ''}`}
         >
-          <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mb-3">
-            <UploadCloud size={22} className="text-blue-500" />
+          <div className="image-upload-icon-wrap">
+            <UploadCloud size={22} className="icon-blue" />
           </div>
-          <p className="text-sm font-semibold text-slate-700 mb-1">Drop image here or click to browse</p>
-          <p className="text-xs text-slate-400">PNG, JPG, WEBP up to 10 MB</p>
+          <p className="image-upload-title">Drop image here or click to browse</p>
+          <p className="image-upload-subtitle">PNG, JPG, WEBP up to 10 MB</p>
           <input
             ref={inputRef}
             type="file"
             accept="image/*"
-            className="hidden"
+            style={{ display: 'none' }}
             onChange={handleChange}
           />
         </div>
       ) : (
-        <div className="relative rounded-2xl overflow-hidden border border-slate-200">
-          <img src={preview} alt="Preview" className="w-full h-48 object-cover" />
+        <div className="image-upload-preview-container">
+          <img src={preview} alt="Preview" className="image-upload-preview-img" />
           <button
             type="button"
             onClick={handleRemove}
-            className="absolute top-2 right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-red-50 transition-colors"
+            className="image-upload-remove-btn"
           >
-            <X size={14} className="text-slate-600" />
+            <X size={14} className="icon-slate" />
           </button>
-          <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/40 to-transparent p-3 flex items-center gap-2">
-            <Image size={14} className="text-white" />
-            <span className="text-xs text-white font-medium">Image ready to upload</span>
+          <div className="image-upload-ready-banner">
+            <Image size={14} className="icon-white" />
+            <span className="image-upload-ready-text">Image ready to upload</span>
           </div>
         </div>
       )}

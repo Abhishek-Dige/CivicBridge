@@ -13,7 +13,7 @@ const formatDate = (iso) =>
 
 const MetaChip = ({ icon: Icon, children }) => (
   <div
-    className="flex items-start gap-2"
+    className="meta-chip"
     style={{ fontSize: '0.875rem', color: '#1e293b' }}
   >
     <Icon size={14} style={{ color: '#94a3b8', marginTop: 2, flexShrink: 0 }} />
@@ -37,7 +37,7 @@ const ComplaintDetailsPage = () => {
   if (!complaint) {
     return (
       <CitizenLayout>
-        <div className="flex flex-col items-center justify-center py-24 text-center">
+        <div className="success-message-container">
           <p style={{ fontSize: '3rem', marginBottom: 16 }}>🔍</p>
           <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', marginBottom: 8 }}>
             Complaint Not Found
@@ -66,7 +66,7 @@ const ComplaintDetailsPage = () => {
       {/* Back button */}
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center gap-2 transition-colors"
+        className="back-btn"
         style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', fontSize: '0.875rem', fontWeight: 600, padding: 0 }}
         onMouseEnter={(e) => { e.currentTarget.style.color = '#0f172a'; }}
         onMouseLeave={(e) => { e.currentTarget.style.color = '#64748b'; }}
@@ -75,15 +75,15 @@ const ComplaintDetailsPage = () => {
       </button>
 
       {/* Two-column grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="details-layout">
 
         {/* ── Main details ── */}
-        <div className="lg:col-span-2 space-y-5">
+        <div className="details-main-col">
 
           {/* Header card */}
           <div style={{ ...cardStyle, padding: '28px 28px' }}>
             {/* Title + status */}
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4" style={{ marginBottom: 20 }}>
+            <div className="details-header-row" style={{ marginBottom: 20 }}>
               <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', lineHeight: 1.3, letterSpacing: '-0.02em' }}>
                 {complaint.title}
               </h2>
@@ -94,7 +94,7 @@ const ComplaintDetailsPage = () => {
 
             {/* Meta grid */}
             <div
-              className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4"
+              className="meta-chip-grid"
               style={{ background: '#f8fafc', borderRadius: 12, marginBottom: 20, border: '1px solid #f1f5f9' }}
             >
               <MetaChip icon={Hash}>

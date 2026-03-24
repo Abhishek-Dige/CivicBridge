@@ -27,7 +27,7 @@ const ReportIssuePage = () => {
   return (
     <CitizenLayout>
       {submitted ? (
-        <div className="flex flex-col items-center justify-center py-24 text-center">
+        <div className="success-message-container">
           <div
             style={{
               width: 72, height: 72, borderRadius: '50%',

@@ -53,10 +53,10 @@ const ComplaintsPage = () => {
           boxShadow: '0 10px 25px rgba(0,0,0,0.04)',
           padding: '24px',
         }}
-        className="space-y-5"
+        className="complaints-filter-panel"
       >
         {/* Search */}
-        <div className="relative">
+        <div className="search-input-wrap">
           <Search
             size={15}
             style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', pointerEvents: 'none' }}
@@ -91,7 +91,7 @@ const ComplaintsPage = () => {
           <p style={{ fontSize: '11px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>
             Category
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="filter-chips-wrap">
             {CATEGORIES.map((cat) => (
               <button key={cat} onClick={() => setCategory(cat)} style={chipStyle(activeCategory === cat, 'category')}>
                 {cat}
@@ -101,7 +101,7 @@ const ComplaintsPage = () => {
         </div>
 
         {/* Status chips */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="filter-chips-wrap">
           <SlidersHorizontal size={14} style={{ color: '#94a3b8', flexShrink: 0 }} />
           {STATUSES.map((s) => (
             <button key={s} onClick={() => setStatus(s)} style={chipStyle(activeStatus === s, 'status')}>
@@ -141,7 +141,7 @@ const ComplaintsPage = () => {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="complaints-grid">
           {filtered.map((c) => <ComplaintCard key={c.id} complaint={c} />)}
         </div>
       )}

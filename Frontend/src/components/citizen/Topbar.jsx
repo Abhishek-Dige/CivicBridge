@@ -44,7 +44,7 @@ const Topbar = ({ onMenuClick }) => {
         <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 12 }}>
           <button
             onClick={onMenuClick}
-            className="lg:hidden flex items-center justify-center text-slate-600 hover:bg-slate-100 rounded-lg p-2 -ml-2 transition-colors cursor-pointer"
+            className="topbar-mobile-menu-btn"
             aria-label="Open menu"
             style={{ border: 'none', background: 'transparent' }}
           >

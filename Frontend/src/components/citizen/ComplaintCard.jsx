@@ -42,7 +42,7 @@ const ComplaintCard = ({ complaint }) => {
         transition: 'transform 0.2s ease, box-shadow 0.2s ease',
         fontFamily: "'Inter', system-ui, sans-serif",
       }}
-      className="ig-post-card group hover:-translate-y-1 hover:shadow-xl"
+      className="ig-post-card"
     >
       {/* ── 1. Post Header (Author & Status) ── */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px' }}>
@@ -121,7 +121,7 @@ const ComplaintCard = ({ complaint }) => {
         </button>
 
         <Link to={`/citizen/complaints/${complaint.id}`} style={{ color: '#0f172a', display: 'flex', alignItems: 'center' }}>
-          <MessageCircle size={24} strokeWidth={2} style={{ transition: 'transform 0.2s' }} className="hover:scale-110" />
+          <MessageCircle size={24} strokeWidth={2} style={{ transition: 'transform 0.2s' }} className="action-icon" />
         </Link>
       </div>
 

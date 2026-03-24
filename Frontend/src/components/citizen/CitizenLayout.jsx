@@ -16,7 +16,7 @@ const CitizenLayout = ({ children }) => {
 
   return (
     <div
-      className="min-h-screen flex relative"
+      className="citizen-layout-container"
       style={{
         background: 'linear-gradient(135deg, #eff6ff 0%, #e6fffa 100%)',
         fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
@@ -27,12 +27,12 @@ const CitizenLayout = ({ children }) => {
       {/* Mobile backdrop overlay */}
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          className="mobile-backdrop"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
-      <div className="flex-1 flex flex-col min-h-screen lg:pl-64 w-full">
+      <div className="citizen-main-wrapper">
         <Topbar onMenuClick={() => setIsSidebarOpen(true)} />
         <main
           style={{
@@ -44,7 +44,7 @@ const CitizenLayout = ({ children }) => {
             boxSizing: 'border-box',
             color: '#1e293b',       /* scoped here, not at top level that reaches sidebar */
           }}
-          className="space-y-8"
+          className="citizen-content"
         >
           {children}
         </main>
