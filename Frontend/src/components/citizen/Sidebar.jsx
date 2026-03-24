@@ -80,9 +80,7 @@ const Sidebar = ({ isOpen, onClose }) => {
 
   return (
     <aside
-      className={`fixed top-0 left-0 h-screen w-64 z-40 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
-        isOpen ? 'translate-x-0' : '-translate-x-full'
-      }`}
+      className={`citizen-sidebar ${isOpen ? 'open' : ''}`}
       style={{
         boxShadow: '4px 0 20px rgba(0,0,0,0.18)',
         background: sidebarBg,

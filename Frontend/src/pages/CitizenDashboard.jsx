@@ -59,7 +59,7 @@ const CitizenDashboard = () => {
           </p>
           <Link
             to="/citizen/report"
-            className="inline-flex items-center gap-2 transition-all duration-200"
+            className="report-new-btn"
             style={{
               background: '#fff',
               color: '#2563eb',
@@ -80,7 +80,7 @@ const CitizenDashboard = () => {
       </div>
 
       {/* ── Stats ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+      <div className="stats-grid">
         {STAT_CONFIG.map(({ label, key, bg, border, valColor, labelColor }) => (
           <div
             key={key}
@@ -110,12 +110,12 @@ const CitizenDashboard = () => {
             <h2 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', margin: 0, lineHeight: 1.3 }}>Report by Category</h2>
           </div>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5">
+        <div className="category-grid">
           {CATEGORIES.map(({ label, icon: Icon, bg, color, text }) => (
             <Link
               key={label}
               to={`/citizen/report?category=${label}`}
-              className="flex flex-col items-center gap-3 p-4 sm:p-5 transition-all duration-200 group"
+              className="category-card"
               style={{
                 background: '#fff',
                 borderRadius: 16,
@@ -179,7 +179,7 @@ const CitizenDashboard = () => {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="complaints-grid">
             {complaints.slice(0, 6).map((c) => (
               <ComplaintCard key={c.id} complaint={c} />
             ))}
