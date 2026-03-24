@@ -148,8 +148,8 @@ const CitizenDashboard = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{ width: 4, height: 22, borderRadius: 4, background: 'linear-gradient(180deg,#2563eb,#10b981)', flexShrink: 0 }} />
             <div>
-              <p style={{ fontSize: 10, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>Submitted by you</p>
-              <h2 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', margin: 0, lineHeight: 1.3 }}>Recent Complaints</h2>
+              <p style={{ fontSize: 10, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>Community Feed</p>
+              <h2 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', margin: 0, lineHeight: 1.3 }}>Recent Issues</h2>
             </div>
             {complaints.length > 0 && (
               <span style={{ fontSize: 11, fontWeight: 700, background: '#eff6ff', color: '#2563eb', border: '1px solid #bfdbfe', borderRadius: 100, padding: '2px 9px' }}>
@@ -179,7 +179,7 @@ const CitizenDashboard = () => {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {complaints.slice(0, 6).map((c) => (
               <ComplaintCard key={c.id} complaint={c} />
             ))}

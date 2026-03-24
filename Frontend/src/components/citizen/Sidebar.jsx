@@ -75,19 +75,20 @@ const SidebarContent = ({ location, onLinkClick }) => (
   </div>
 );
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, onClose }) => {
   const location = useLocation();
 
   return (
     <aside
+      className={`fixed top-0 left-0 h-screen w-64 z-40 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+        isOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}
       style={{
-        position: 'fixed', top: 0, left: 0,
-        height: '100vh', width: 256, zIndex: 40,
         boxShadow: '4px 0 20px rgba(0,0,0,0.18)',
         background: sidebarBg,
       }}
     >
-      <SidebarContent location={location} onLinkClick={undefined} />
+      <SidebarContent location={location} onLinkClick={onClose} />
     </aside>
   );
 };

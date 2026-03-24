@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { Bell, User } from 'lucide-react';
+import { Bell, User, Menu } from 'lucide-react';
 
 const PAGE_TITLES = {
   '/citizen/dashboard':  { title: 'Dashboard',       sub: 'Overview of your civic activity' },
@@ -8,7 +8,7 @@ const PAGE_TITLES = {
   '/citizen/complaints': { title: 'My Complaints',    sub: 'Track and manage your submissions' },
 };
 
-const Topbar = () => {
+const Topbar = ({ onMenuClick }) => {
   const location = useLocation();
   const isDetail =
     location.pathname.startsWith('/citizen/complaints/') &&
@@ -40,10 +40,19 @@ const Topbar = () => {
           gap: 12,
         }}
       >
-        {/* Left — title. pl-12 makes room for hamburger on mobile */}
-        <div style={{ paddingLeft: 48, flex: 1, minWidth: 0 }} className="lg:pl-0-override">
-          {/* We use a span that changes via CSS; just set padding inline for mobile */}
-          <h1
+        {/* Left — title & mobile menu toggle */}
+        <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 12 }}>
+          <button
+            onClick={onMenuClick}
+            className="lg:hidden flex items-center justify-center text-slate-600 hover:bg-slate-100 rounded-lg p-2 -ml-2 transition-colors cursor-pointer"
+            aria-label="Open menu"
+            style={{ border: 'none', background: 'transparent' }}
+          >
+            <Menu size={22} />
+          </button>
+          
+          <div style={{ minWidth: 0 }}>
+            <h1
             style={{
               fontSize: '1.0625rem',
               fontWeight: 700,
@@ -61,7 +70,8 @@ const Topbar = () => {
             <p style={{ fontSize: 12, color: '#64748b', margin: 0 }} className="hidden-mobile">
               {info.sub}
             </p>
-          )}
+            )}
+          </div>
         </div>
 
         {/* Right — compact, no overflow-prone text */}

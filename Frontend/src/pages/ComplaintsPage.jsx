@@ -115,7 +115,7 @@ const ComplaintsPage = () => {
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <div style={{ width: 4, height: 22, borderRadius: 4, background: 'linear-gradient(180deg,#2563eb,#10b981)', flexShrink: 0 }} />
         <div>
-          <p style={{ fontSize: 10, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>Your Complaints</p>
+          <p style={{ fontSize: 10, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>Community Feed</p>
           <h2 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', margin: 0, lineHeight: 1.3 }}>
             {filtered.length} Result{filtered.length !== 1 ? 's' : ''} Found
           </h2>
@@ -141,7 +141,7 @@ const ComplaintsPage = () => {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {filtered.map((c) => <ComplaintCard key={c.id} complaint={c} />)}
         </div>
       )}
