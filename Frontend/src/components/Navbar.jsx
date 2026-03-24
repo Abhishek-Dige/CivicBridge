@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { Menu, X, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Menu, X, ArrowRight, ShieldCheck, LogIn, LogOut } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 import '../styles/navbar.css';
 import logo from "../assets/cilogo.png";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { user, logout } = useAuth();
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   const isSpecialPage = location.pathname === '/schemes' || location.pathname === '/eligibility';
+
+  const initials = user?.name
+    ? user.name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()
+    : '';
 
   return (
     <header className="navbar-header navbar-glass">
@@ -46,10 +52,42 @@ const Navbar = () => {
         </nav>
 
         {/* Desktop CTA */}
-        <div className="navbar-actions">
-          <Link to="/citizen/report" className="btn btn-primary">
-            Report an Issue <ArrowRight size={18} />
-          </Link>
+        <div className="navbar-actions" style={{ gap: '0.75rem' }}>
+          {user ? (
+            <>
+              {/* User Avatar */}
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: '0.5rem',
+                fontSize: '0.875rem', fontWeight: 600, color: 'var(--color-text-dark)'
+              }}>
+                <div style={{
+                  width: 34, height: 34, borderRadius: '50%',
+                  background: 'var(--gradient-accent)', color: '#fff',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '0.75rem', fontWeight: 700, flexShrink: 0,
+                }}>{initials}</div>
+                <span style={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {user.name}
+                </span>
+              </div>
+              <button
+                onClick={logout}
+                className="btn btn-secondary"
+                style={{ padding: '8px 16px', fontSize: '0.875rem', gap: '0.4rem' }}
+              >
+                <LogOut size={15} /> Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="btn btn-secondary" style={{ padding: '8px 20px', fontSize: '0.875rem' }}>
+                <LogIn size={15} /> Login
+              </Link>
+              <Link to="/citizen/report" className="btn btn-primary">
+                Report an Issue <ArrowRight size={18} />
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -78,10 +116,30 @@ const Navbar = () => {
               <a href="#contact" className="mobile-link" onClick={toggleMobileMenu}>Contact</a>
             </>
           )}
-          <div style={{ padding: '1rem 1.5rem' }}>
-            <Link to="/citizen/report" className="btn btn-primary" style={{ width: '100%' }} onClick={toggleMobileMenu}>
-              Report an Issue <ArrowRight size={18} />
-            </Link>
+          <div style={{ padding: '1rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            {user ? (
+              <>
+                <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text-dark)', marginBottom: '0.25rem' }}>
+                  👋 {user.name}
+                </div>
+                <button
+                  onClick={() => { logout(); toggleMobileMenu(); }}
+                  className="btn btn-secondary"
+                  style={{ width: '100%', justifyContent: 'center' }}
+                >
+                  <LogOut size={15} /> Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="btn btn-secondary" style={{ width: '100%', justifyContent: 'center' }} onClick={toggleMobileMenu}>
+                  <LogIn size={15} /> Login
+                </Link>
+                <Link to="/citizen/report" className="btn btn-primary" style={{ width: '100%' }} onClick={toggleMobileMenu}>
+                  Report an Issue <ArrowRight size={18} />
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

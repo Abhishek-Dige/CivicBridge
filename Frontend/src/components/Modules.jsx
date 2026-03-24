@@ -86,9 +86,9 @@ const Modules = () => {
               </li>
             </ul>
             
-            <button className="btn btn-primary" style={{marginTop: '2rem'}}>
-              Report an Issue <ArrowRight size={18} />
-            </button>
+            <Link to="/citizen/report" className="btn btn-primary" style={{marginTop: '2rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center'}}>
+              Report an Issue <ArrowRight size={18} style={{marginLeft: '0.5rem'}} />
+            </Link>
           </div>
           
         </div>
