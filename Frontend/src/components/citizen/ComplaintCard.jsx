@@ -137,7 +137,7 @@ const ComplaintCard = ({ complaint }) => {
           <span style={{ fontWeight: 700, marginRight: 8 }}>{complaint.author?.name || 'Citizen'}</span>
           <span style={{
             display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
-            overflow: 'hidden', display: 'inline',
+            overflow: 'hidden',
           }}>
             {complaint.description}
           </span>

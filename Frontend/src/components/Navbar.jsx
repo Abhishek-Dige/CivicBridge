@@ -1,22 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { Menu, X, ArrowRight, ShieldCheck, LogIn, LogOut } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import supabase from '../context/supabase';
 import '../styles/navbar.css';
 import logo from "../assets/cilogo.png";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
   const location = useLocation();
-  const { user, logout } = useAuth();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUser(data.user);
+    };
+
+    getUser();
+  }, []);
+  const logout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+  };
+  
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   const isSpecialPage = location.pathname === '/schemes' || location.pathname === '/eligibility';
-
-  const initials = user?.name
-    ? user.name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()
-    : '';
+  
+  const initials = user?.user_metadata?.name
+  ? user.user_metadata.name.slice(0, 2).toUpperCase()
+  : "";
 
   return (
     <header className="navbar-header navbar-glass">
@@ -120,7 +134,7 @@ const Navbar = () => {
             {user ? (
               <>
                 <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text-dark)', marginBottom: '0.25rem' }}>
-                  👋 {user.name}
+                  👋 {user?.user_metadata?.name}
                 </div>
                 <button
                   onClick={() => { logout(); toggleMobileMenu(); }}

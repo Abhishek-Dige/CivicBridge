@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Mail, Lock, User, Eye, EyeOff, AlertCircle, ArrowRight, ShieldCheck } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+
 import '../styles/login.css';
 import logo from '../assets/cilogo.png';
-
+import supabase from '../context/supabase';
 const LoginPage = () => {
-  const { login, signup } = useAuth();
+  
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -52,9 +52,25 @@ const LoginPage = () => {
     setGlobalError('');
     try {
       if (mode === 'login') {
-        await login(form.email.trim(), form.password);
+        const { data,error } = await supabase.auth.signInWithPassword({
+          email: form.email.trim(),
+          password: form.password,
+        });
+        
+        if (error) throw error;
+
       } else {
-        await signup(form.name.trim(), form.email.trim(), form.password);
+        const { error } = await supabase.auth.signUp({
+          email: form.email.trim(),
+          password: form.password,
+          options:{
+            data:{
+              name: form.name
+            }
+          }
+        });
+
+        if (error) throw error;
       }
       navigate(from, { replace: true });
     } catch (err) {
