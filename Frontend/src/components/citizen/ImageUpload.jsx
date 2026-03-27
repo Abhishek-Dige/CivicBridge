@@ -1,17 +1,40 @@
 import React, { useRef, useState } from 'react';
 import { UploadCloud, X, Image } from 'lucide-react';
+import supabase from '../../context/supabase';
 
 const ImageUpload = ({ onImageChange }) => {
   const [preview, setPreview] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef(null);
 
-  const handleFile = (file) => {
-    if (!file || !file.type.startsWith('image/')) return;
-    const url = URL.createObjectURL(file);
-    setPreview(url);
-    onImageChange(url);
-  };
+ 
+
+const handleFile = async (file) => {
+  if (!file || !file.type.startsWith("image/")) return;
+
+  // 🔥 instant preview (same as before)
+  const previewUrl = URL.createObjectURL(file);
+  setPreview(previewUrl);
+
+  // 🔥 upload to supabase
+  const fileName = `${Date.now()}-${file.name}`;
+
+  const { error } = await supabase.storage
+    .from("post-images")
+    .upload(fileName, file);
+
+  if (error) {
+    console.error("Upload failed:", error);
+    return;
+  }
+
+  const { data } = supabase.storage
+    .from("post-images")
+    .getPublicUrl(fileName);
+
+  // 🔥 send REAL URL to parent
+  onImageChange(data.publicUrl);
+};
 
   const handleChange = (e) => handleFile(e.target.files[0]);
 
