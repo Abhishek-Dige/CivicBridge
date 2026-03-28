@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ImageUpload from './ImageUpload';
+import supabase from '../../context/supabase';
+
 
 const CATEGORIES = ['Roads', 'Water', 'Electricity', 'Sanitation'];
 
@@ -51,6 +54,7 @@ const ComplaintForm = ({ onSubmit }) => {
   const [form, setForm] = useState({ title: '', location: '', category: '', description: '', imageUrl: null });
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -68,13 +72,40 @@ const ComplaintForm = ({ onSubmit }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const errs = validate();
-    if (Object.keys(errs).length) { setErrors(errs); return; }
-    setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 600));
-    onSubmit(form);
-  };
+  e.preventDefault(); // 🔥 VERY IMPORTANT
+
+  const errs = validate();
+  if (Object.keys(errs).length) {
+    setErrors(errs);
+    return;
+  }
+
+  setSubmitting(true);
+
+  const { data: { user } } = await supabase.auth.getUser();
+
+  const { data, error } = await supabase
+    .from("posts")
+    .insert({
+      title: form.title,
+      location: form.location,
+      category: form.category,
+      description: form.description,
+      image_url: form.imageUrl,
+      user_id: user?.id ?? null,
+    })
+    .select();
+
+  if (error) {
+    console.error("INSERT ERROR:", error);
+    setSubmitting(false);
+    return;
+  }
+
+  navigate("/citizen/dashboard", { state: { newComplaint: data[0] } });
+
+  setSubmitting(false);
+};
 
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20, fontFamily: "'Inter', system-ui" }}>
