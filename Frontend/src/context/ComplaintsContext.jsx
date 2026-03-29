@@ -15,13 +15,22 @@ export const ComplaintsProvider = ({ children }) => {
       setUser(data.user);
     };
     getUser();
-  }, []);
 
-  useEffect(() => {
-    const fetchComplaints = async () => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+  const fetchComplaints = async () => {
       const { data, error } = await supabase
         .from("posts")
-        .select("*")
+        .select(`
+          *,
+          votes (user_id)
+        `)
         .order("created_at", { ascending: false });
 
       if (error) {
@@ -38,10 +47,12 @@ export const ComplaintsProvider = ({ children }) => {
             name: "Citizen",
             initials: "C",
           },
-          upvotedBy: [],
+          upvotedBy: c.votes?.map(v => v.user_id) || [],
         })),
       );
     };
+  useEffect(() => {
+    
 
     fetchComplaints();
   }, []);
@@ -79,24 +90,42 @@ export const ComplaintsProvider = ({ children }) => {
 setComplaints((prev) => [newComplaint, ...prev]);
   };
 
-  const toggleUpvote = (complaintId) => {
-    if (!user) return; // Must be logged in to upvote
+const toggleUpvote = (postId) => {
+  if (!user) return;
 
-    setComplaints((prev) =>
-      prev.map((c) => {
-        if (c.id === complaintId) {
-          const hasUpvoted = c.upvotedBy.includes(user.id);
-          return {
-            ...c,
-            upvotedBy: hasUpvoted
-              ? c.upvotedBy.filter((id) => id !== user.id)
-              : [...c.upvotedBy, user.id],
-          };
-        }
-        return c;
-      }),
-    );
-  };
+  setComplaints((prev) =>
+    prev.map((c) => {
+      if (c.id !== postId) return c;
+
+      const hasUpvoted = c.upvotedBy.includes(user.id);
+
+      const updated = {
+        ...c,
+        upvotedBy: hasUpvoted
+          ? c.upvotedBy.filter((id) => id !== user.id)
+          : [...c.upvotedBy, user.id],
+      };
+
+      // 🔥 async DB (don’t block UI)
+      if (hasUpvoted) {
+        supabase
+          .from("votes")
+          .delete()
+          .eq("post_id", postId)
+          .eq("user_id", user.id);
+      } else {
+        supabase
+          .from("votes")
+          .insert({
+            post_id: postId,
+            user_id: user.id,
+          });
+      }
+
+      return updated;
+    })
+  );
+};
 
   return (
     <ComplaintsContext.Provider
