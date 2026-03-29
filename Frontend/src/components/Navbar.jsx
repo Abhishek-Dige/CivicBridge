@@ -26,7 +26,7 @@ const Navbar = () => {
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
-  const isSpecialPage = location.pathname === '/schemes' || location.pathname === '/eligibility';
+  const isSpecialPage = location.pathname === '/schemes' || location.pathname === '/eligibility' || location.pathname.startsWith('/scheme/');
   
   const initials = user?.user_metadata?.name
   ? user.user_metadata.name.slice(0, 2).toUpperCase()
