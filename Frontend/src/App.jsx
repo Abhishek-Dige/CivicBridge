@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import SchemeNavigatorPage from './pages/SchemeNavigatorPage';
+import SchemeDetailsPage from './pages/SchemeDetailsPage';
 import EligibilityFormPage from './pages/EligibilityFormPage';
 import CitizenDashboard from './pages/CitizenDashboard';
 import ReportIssuePage from './pages/ReportIssuePage';
@@ -23,6 +24,7 @@ function App() {
               {/* Public routes */}
               <Route path="/" element={<HomePage />} />
               <Route path="/schemes" element={<SchemeNavigatorPage />} />
+              <Route path="/scheme/:id" element={<SchemeDetailsPage />} />
               <Route path="/eligibility" element={<EligibilityFormPage />} />
               <Route path="/login" element={<LoginPage />} />
 
