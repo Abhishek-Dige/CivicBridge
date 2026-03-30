@@ -9,7 +9,12 @@ import {
   Baby, User, Home, IndianRupee, ChevronRight, ChevronLeft,
   FileText
 } from 'lucide-react';
+import schemeCategories from '../data/schemeData';
 
+// Map icon name strings to Lucide components
+const iconMap = {
+  BookOpen, Stethoscope, Tractor, Briefcase,
+  Baby, User, Home, IndianRupee,
 const iconMap = {
   education: BookOpen,
   healthcare: Stethoscope,
@@ -55,6 +60,11 @@ const SchemeRow = ({ category }) => {
     if (scrollRef.current) scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
   };
 
+  // Map iconName strings to actual icon components for SchemeCard
+  const schemesWithIcons = category.schemes.map(scheme => ({
+    ...scheme,
+    icon: iconMap[scheme.iconName] || BookOpen,
+  }));
   if (!category.schemes || category.schemes.length === 0) return null;
 
   return (
@@ -68,6 +78,8 @@ const SchemeRow = ({ category }) => {
       </div>
       
       <div className="scheme-row-container" ref={scrollRef}>
+        {schemesWithIcons.map((scheme, idx) => (
+          <SchemeCard key={idx} scheme={scheme} />
         {category.schemes.map((scheme) => (
           <SchemeCard key={scheme.id} scheme={scheme} />
         ))}
