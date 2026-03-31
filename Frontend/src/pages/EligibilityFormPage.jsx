@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+
 import {
   BookOpen, Stethoscope, Tractor, Briefcase,
   Baby, User, Home, IndianRupee,
@@ -10,7 +11,7 @@ import {
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const API_BASE = 'http://localhost:5001';
+const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
 // Map icon name strings to Lucide components
 const iconMap = {
