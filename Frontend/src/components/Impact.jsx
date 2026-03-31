@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Users, ShieldCheck, TrendingUp, ArrowRight } from 'lucide-react';
 import '../styles/impact.css';
 
@@ -45,9 +46,9 @@ const Impact = () => {
             <a href="#modules" className="btn btn-white">
               Explore Platform
             </a>
-            <a href="#report" className="btn btn-outline-white">
+            <Link to="/citizen/report" className="btn btn-outline-white">
               Report an Issue <ArrowRight size={20} />
-            </a>
+            </Link>
           </div>
         </div>
       </section>
