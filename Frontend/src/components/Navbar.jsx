@@ -1,156 +1,188 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
-import { Menu, X, ArrowRight, ShieldCheck, LogIn, LogOut } from 'lucide-react';
-import supabase from '../context/supabase';
+import React, { useState } from 'react';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { Menu, X, ArrowRight, LogIn, LogOut } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 import '../styles/navbar.css';
-import logo from "../assets/cilogo.png";
+import logo from '../assets/cilogo.png';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [user, setUser] = useState(null);
+  const { user, logout } = useAuth();
   const location = useLocation();
-
-  useEffect(() => {
-    const getUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      setUser(data.user);
-    };
-
-    getUser();
-  }, []);
-  const logout = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-  };
-  
+  const navigate = useNavigate();
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
-  const isSpecialPage = location.pathname === '/schemes' || location.pathname === '/eligibility' || location.pathname.startsWith('/scheme/');
-  
-  const initials = user?.user_metadata?.name
-  ? user.user_metadata.name.slice(0, 2).toUpperCase()
-  : "";
+  const isSpecialPage =
+    location.pathname === '/schemes' ||
+    location.pathname === '/eligibility' ||
+    location.pathname.startsWith('/scheme/') ||
+    location.pathname === '/about';
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+  };
+
+  // ── Determine active link ────────────────────────────────────────────
+  const isActive = (path) => {
+    if (path.startsWith('#')) return false;
+    return location.pathname === path;
+  };
+
+  // ── Desktop nav links ────────────────────────────────────────────────
+  const desktopLinks = isSpecialPage
+    ? [
+        { to: '/', label: 'Home' },
+        { to: '/schemes', label: 'Schemes' },
+        { to: '/eligibility', label: 'Eligibility' },
+        { to: '/about', label: 'About' },
+      ]
+    : [
+        { to: '#home', label: 'Home', isAnchor: true },
+        { to: '#modules', label: 'Modules', isAnchor: true },
+        { to: '#features', label: 'Features', isAnchor: true },
+        { to: '#how-it-works', label: 'How It Works', isAnchor: true },
+        { to: '/about', label: 'About' },
+      ];
 
   return (
     <header className="navbar-header navbar-glass">
-      
       <div className="container navbar-container">
-        {/* Logo */}
+
+        {/* ── Logo ── */}
         <Link to="/" className="navbar-logo">
-          <img
-            src={logo}
-            alt="CivicBridge Logo"
-            className="logo-img"
-          />
+          <img src={logo} alt="CivicBridge Logo" className="logo-img" />
           <span>CivicBridge</span>
         </Link>
-        
-        {/* Desktop Links */}
+
+        {/* ── Desktop Links (pill container) ── */}
         <nav className="navbar-links">
-          {isSpecialPage ? (
-            <>
-              <Link to="/" className="nav-link">Home</Link>
-              <Link to="/schemes" className="nav-link">Schemes</Link>
-              <Link to="/eligibility" className="nav-link">Eligibility</Link>
-            </>
-          ) : (
-            <>
-              <a href="#home" className="nav-link">Home</a>
-              <a href="#modules" className="nav-link">Modules</a>
-              <a href="#features" className="nav-link">Features</a>
-              <a href="#how-it-works" className="nav-link">How It Works</a>
-              <a href="#contact" className="nav-link">Contact</a>
-            </>
+          {desktopLinks.map(({ to, label, isAnchor }) =>
+            isAnchor ? (
+              <a key={to} href={to} className="nav-link">
+                {label}
+              </a>
+            ) : (
+              <Link
+                key={to}
+                to={to}
+                className={`nav-link ${isActive(to) ? 'active' : ''}`}
+              >
+                {label}
+              </Link>
+            ),
           )}
         </nav>
 
-        {/* Desktop CTA */}
-        <div className="navbar-actions" style={{ gap: '0.75rem' }}>
+        {/* ── Desktop Actions ── */}
+        <div className="navbar-actions">
           {user ? (
             <>
-              {/* User Avatar */}
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: '0.5rem',
-                fontSize: '0.875rem', fontWeight: 600, color: 'var(--color-text-dark)'
-              }}>
-                <div style={{
-                  width: 34, height: 34, borderRadius: '50%',
-                  background: 'var(--gradient-accent)', color: '#fff',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '0.75rem', fontWeight: 700, flexShrink: 0,
-                }}>{initials}</div>
-                <span style={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {user.name}
-                </span>
+              {/* User pill */}
+              <div className="navbar-user-pill">
+                <div className="navbar-user-avatar">{user.initials}</div>
+                <span className="navbar-user-name">{user.name}</span>
               </div>
+              {/* Logout */}
               <button
-                onClick={logout}
-                className="btn btn-secondary"
-                style={{ padding: '8px 16px', fontSize: '0.875rem', gap: '0.4rem' }}
+                onClick={handleLogout}
+                className="navbar-logout-btn"
+                aria-label="Logout"
+                title="Sign out"
               >
-                <LogOut size={15} /> Logout
+                <LogOut size={16} />
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="btn btn-secondary" style={{ padding: '8px 20px', fontSize: '0.875rem' }}>
+              <Link to="/login" className="btn btn-secondary">
                 <LogIn size={15} /> Login
               </Link>
               <Link to="/citizen/report" className="btn btn-primary">
-                Report an Issue <ArrowRight size={18} />
+                Report an Issue <ArrowRight size={16} />
               </Link>
             </>
           )}
         </div>
 
-        {/* Mobile Menu Button */}
-        <button 
+        {/* ── Mobile Menu Toggle ── */}
+        <button
           className="mobile-menu-btn"
           onClick={toggleMobileMenu}
           aria-label="Toggle menu"
         >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
 
-        {/* Mobile Menu Dropdown */}
+        {/* ── Mobile Dropdown ── */}
         <div className={`mobile-menu ${isMobileMenuOpen ? 'is-open' : ''}`}>
-          {isSpecialPage ? (
-            <>
-              <Link to="/" className="mobile-link" onClick={toggleMobileMenu}>Home</Link>
-              <Link to="/schemes" className="mobile-link" onClick={toggleMobileMenu}>Schemes</Link>
-              <Link to="/eligibility" className="mobile-link" onClick={toggleMobileMenu}>Eligibility</Link>
-            </>
-          ) : (
-            <>
-              <a href="#home" className="mobile-link" onClick={toggleMobileMenu}>Home</a>
-              <a href="#modules" className="mobile-link" onClick={toggleMobileMenu}>Modules</a>
-              <a href="#features" className="mobile-link" onClick={toggleMobileMenu}>Features</a>
-              <a href="#how-it-works" className="mobile-link" onClick={toggleMobileMenu}>How It Works</a>
-              <a href="#contact" className="mobile-link" onClick={toggleMobileMenu}>Contact</a>
-            </>
+          {desktopLinks.map(({ to, label, isAnchor }) =>
+            isAnchor ? (
+              <a
+                key={to}
+                href={to}
+                className="mobile-link"
+                onClick={toggleMobileMenu}
+              >
+                {label}
+              </a>
+            ) : (
+              <Link
+                key={to}
+                to={to}
+                className="mobile-link"
+                onClick={toggleMobileMenu}
+              >
+                {label}
+              </Link>
+            ),
           )}
-          <div style={{ padding: '1rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+
+          {/* Mobile user / auth area */}
+          <div className="mobile-menu-actions">
             {user ? (
               <>
-                <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text-dark)', marginBottom: '0.25rem' }}>
-                  👋 {user?.user_metadata?.name}
+                <div className="mobile-user-info">
+                  <div className="navbar-user-avatar">{user.initials}</div>
+                  <div className="mobile-user-details">
+                    <span className="name">{user.name}</span>
+                    <span className="email">{user.email}</span>
+                  </div>
                 </div>
+                <Link
+                  to="/citizen/dashboard"
+                  className="btn btn-primary"
+                  style={{ width: '100%', justifyContent: 'center' }}
+                  onClick={toggleMobileMenu}
+                >
+                  Dashboard <ArrowRight size={16} />
+                </Link>
                 <button
-                  onClick={() => { logout(); toggleMobileMenu(); }}
+                  onClick={() => { handleLogout(); toggleMobileMenu(); }}
                   className="btn btn-secondary"
                   style={{ width: '100%', justifyContent: 'center' }}
                 >
-                  <LogOut size={15} /> Logout
+                  <LogOut size={15} /> Sign Out
                 </button>
               </>
             ) : (
               <>
-                <Link to="/login" className="btn btn-secondary" style={{ width: '100%', justifyContent: 'center' }} onClick={toggleMobileMenu}>
+                <Link
+                  to="/login"
+                  className="btn btn-secondary"
+                  style={{ width: '100%', justifyContent: 'center' }}
+                  onClick={toggleMobileMenu}
+                >
                   <LogIn size={15} /> Login
                 </Link>
-                <Link to="/citizen/report" className="btn btn-primary" style={{ width: '100%' }} onClick={toggleMobileMenu}>
-                  Report an Issue <ArrowRight size={18} />
+                <Link
+                  to="/citizen/report"
+                  className="btn btn-primary"
+                  style={{ width: '100%', justifyContent: 'center' }}
+                  onClick={toggleMobileMenu}
+                >
+                  Report an Issue <ArrowRight size={16} />
                 </Link>
               </>
             )}

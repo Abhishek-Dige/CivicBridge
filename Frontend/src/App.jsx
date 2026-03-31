@@ -9,6 +9,7 @@ import ReportIssuePage from './pages/ReportIssuePage';
 import ComplaintsPage from './pages/ComplaintsPage';
 import ComplaintDetailsPage from './pages/ComplaintDetailsPage';
 import LoginPage from './pages/LoginPage';
+import AboutPage from './pages/AboutPage';
 import { ComplaintsProvider } from './context/ComplaintsContext';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -27,6 +28,7 @@ function App() {
               <Route path="/scheme/:id" element={<SchemeDetailsPage />} />
               <Route path="/eligibility" element={<EligibilityFormPage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/about" element={<AboutPage />} />
 
               {/* Protected Citizen Portal routes */}
               <Route path="/citizen/dashboard" element={<ProtectedRoute><CitizenDashboard /></ProtectedRoute>} />

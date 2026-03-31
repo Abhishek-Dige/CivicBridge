@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ShieldCheck, Twitter, Github, Linkedin, Mail } from 'lucide-react';
 import '../styles/footer.css';
 
@@ -49,7 +50,7 @@ const Footer = () => {
         <div>
           <h4 className="footer-col-title">Company</h4>
           <ul className="footer-links">
-            <li><a href="#about">About Us</a></li>
+            <li><Link to="/about">About Us</Link></li>
             <li><a href="#impact">Our Impact</a></li>
             <li><a href="#contact">Contact Support</a></li>
             <li><a href="#privacy">Privacy Policy</a></li>
