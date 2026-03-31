@@ -1,8 +1,11 @@
 import { createClient } from "@supabase/supabase-js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const supabase = createClient(
-  "https://qtxzgsulaxupytgmzisy.supabase.co",
-  "sb_publishable_q8aorojFIxupnhd3lUKoAA_W5cf4PHL"
+  process.env.VITE_SUPABASE_URL ,
+  process.env.VITE_SUPABASE_KEY
 );
 
 export default supabase;
