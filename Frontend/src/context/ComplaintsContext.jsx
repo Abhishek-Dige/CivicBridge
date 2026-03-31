@@ -13,7 +13,7 @@ const mapPost = (row, votedPostIds = new Set()) => ({
   description: row.description,
   imageUrl: row.image_url,
   status: row.status || "Pending",
-  trackingId: row.tracking_id || `CB-${String(row.id).slice(0, 6).toUpperCase()}`,
+  trackingId: row.tracking_id ? `CB-${row.tracking_id}` : `CB-${String(row.id).slice(0, 8)}`,
   createdAt: row.created_at,
   user_id: row.user_id,
   author: {
@@ -147,7 +147,7 @@ export const ComplaintsProvider = ({ children }) => {
   const addComplaint = async (complaint) => {
     if (!user) throw new Error("Must be logged in to submit a complaint");
 
-    const trackingId = `CB-${Math.floor(100000 + Math.random() * 900000)}`;
+    const trackingId = Math.floor(100000 + Math.random() * 900000);
 
     const { data, error } = await supabase
       .from("posts")
