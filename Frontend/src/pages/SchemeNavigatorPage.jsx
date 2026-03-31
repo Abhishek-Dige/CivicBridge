@@ -9,7 +9,9 @@ import {
   Baby, User, Home, IndianRupee, ChevronRight, ChevronLeft,
   FileText
 } from 'lucide-react';
+import schemeCategories from '../data/schemeData';
 
+// Map icon name strings to Lucide components
 const iconMap = {
   education: BookOpen,
   healthcare: Stethoscope,
