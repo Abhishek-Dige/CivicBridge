@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Mail, Lock, User, Eye, EyeOff, AlertCircle, ArrowRight, ShieldCheck } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 import '../styles/login.css';
 import logo from '../assets/cilogo.png';
-import supabase from '../context/supabase';
+
 const LoginPage = () => {
-  
+  const { login, signup } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -52,25 +53,9 @@ const LoginPage = () => {
     setGlobalError('');
     try {
       if (mode === 'login') {
-        const { data,error } = await supabase.auth.signInWithPassword({
-          email: form.email.trim(),
-          password: form.password,
-        });
-        
-        if (error) throw error;
-
+        await login(form.email.trim(), form.password);
       } else {
-        const { error } = await supabase.auth.signUp({
-          email: form.email.trim(),
-          password: form.password,
-          options:{
-            data:{
-              name: form.name
-            }
-          }
-        });
-
-        if (error) throw error;
+        await signup(form.name.trim(), form.email.trim(), form.password);
       }
       navigate(from, { replace: true });
     } catch (err) {
@@ -213,17 +198,6 @@ const LoginPage = () => {
             )}
           </button>
         </form>
-
-        {/* Demo hint — only on login tab */}
-        {mode === 'login' && (
-          <>
-            <div className="login-divider">or try the demo</div>
-            <div className="login-demo-hint">
-              <ShieldCheck size={14} style={{ display: 'inline', marginRight: 4, verticalAlign: 'middle' }} />
-              <strong>Demo account:</strong> demo@civicbridge.in &nbsp;/&nbsp; demo1234
-            </div>
-          </>
-        )}
 
         {/* Back to home */}
         <div className="login-footer">

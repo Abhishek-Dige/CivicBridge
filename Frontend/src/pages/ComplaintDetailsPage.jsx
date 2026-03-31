@@ -30,9 +30,28 @@ const cardStyle = {
 
 const ComplaintDetailsPage = () => {
   const { id } = useParams();
-  const { complaints } = useComplaints();
+  const { complaints, loading } = useComplaints();
   const navigate = useNavigate();
   const complaint = complaints.find((c) => String(c.id) === String(id));
+
+  if (loading) {
+    return (
+      <CitizenLayout>
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          padding: '80px 24px', gap: 10,
+        }}>
+          <div style={{
+            width: 28, height: 28, border: '3px solid #e2e8f0',
+            borderTopColor: '#2563eb', borderRadius: '50%',
+            animation: 'spin 0.7s linear infinite',
+          }} />
+          <span style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: 500 }}>Loading…</span>
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        </div>
+      </CitizenLayout>
+    );
+  }
 
   if (!complaint) {
     return (

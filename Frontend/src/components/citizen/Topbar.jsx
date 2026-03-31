@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { Bell, User, Menu } from 'lucide-react';
+import { Bell, User, Menu, LogOut } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 const PAGE_TITLES = {
   '/citizen/dashboard':  { title: 'Dashboard',       sub: 'Overview of your civic activity' },
@@ -9,6 +10,7 @@ const PAGE_TITLES = {
 };
 
 const Topbar = ({ onMenuClick }) => {
+  const { user, logout } = useAuth();
   const location = useLocation();
   const isDetail =
     location.pathname.startsWith('/citizen/complaints/') &&
@@ -74,7 +76,7 @@ const Topbar = ({ onMenuClick }) => {
           </div>
         </div>
 
-        {/* Right — compact, no overflow-prone text */}
+        {/* Right — user info & actions */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
           {/* Bell */}
           <button
@@ -95,18 +97,38 @@ const Topbar = ({ onMenuClick }) => {
             />
           </button>
 
-          {/* Avatar only — no text label so it never overflows */}
+          {/* Logout */}
+          <button
+            onClick={logout}
+            style={{
+              padding: 8, borderRadius: 10,
+              background: 'none', border: 'none', cursor: 'pointer',
+              color: '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = '#ef4444'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = '#64748b'; }}
+            aria-label="Logout"
+            title="Sign out"
+          >
+            <LogOut size={19} />
+          </button>
+
+          {/* Avatar with user initials */}
           <div
-            title="Citizen Portal User"
+            title={user?.name || user?.email || 'User'}
             style={{
               width: 36, height: 36, borderRadius: 10,
               background: 'linear-gradient(135deg,#2563eb,#10b981)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               boxShadow: '0 2px 8px rgba(37,99,235,0.2)',
               flexShrink: 0,
+              color: '#fff',
+              fontSize: 13,
+              fontWeight: 700,
             }}
           >
-            <User size={17} style={{ color: '#fff' }} />
+            {user?.initials || <User size={17} style={{ color: '#fff' }} />}
           </div>
         </div>
       </div>

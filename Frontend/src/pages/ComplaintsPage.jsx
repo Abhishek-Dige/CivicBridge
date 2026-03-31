@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import CitizenLayout from '../components/citizen/CitizenLayout';
 import ComplaintCard from '../components/citizen/ComplaintCard';
 import { useComplaints } from '../context/ComplaintsContext';
-import { Search, SlidersHorizontal } from 'lucide-react';
+import { Search, SlidersHorizontal, Loader2 } from 'lucide-react';
 
 const CATEGORIES = ['All', 'Roads', 'Water', 'Electricity', 'Sanitation'];
 const STATUSES   = ['All', 'Pending', 'In Progress', 'Completed'];
 
 const ComplaintsPage = () => {
-  const { complaints } = useComplaints();
+  const { complaints, loading } = useComplaints();
   const [search, setSearch]           = useState('');
   const [activeCategory, setCategory] = useState('All');
   const [activeStatus, setStatus]     = useState('All');
@@ -20,9 +20,9 @@ const ComplaintsPage = () => {
       const matchStatus = activeStatus   === 'All' || c.status === activeStatus;
       const q = search.toLowerCase();
       const matchSearch = !q ||
-        c.title.toLowerCase().includes(q) ||
-        c.location.toLowerCase().includes(q) ||
-        c.trackingId.toLowerCase().includes(q);
+        (c.title || '').toLowerCase().includes(q) ||
+        (c.location || '').toLowerCase().includes(q) ||
+        (c.trackingId || '').toLowerCase().includes(q);
       return matchCat && matchStatus && matchSearch;
     }),
   [complaints, search, activeCategory, activeStatus]);
@@ -44,7 +44,7 @@ const ComplaintsPage = () => {
 
   return (
     <CitizenLayout>
-      {/* ── Filter panel (matches .cta-box / .eligibility-container style) ── */}
+      {/* ── Filter panel ── */}
       <div
         style={{
           background: '#fff',
@@ -117,16 +117,27 @@ const ComplaintsPage = () => {
         <div>
           <p style={{ fontSize: 10, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>Community Feed</p>
           <h2 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', margin: 0, lineHeight: 1.3 }}>
-            {filtered.length} Result{filtered.length !== 1 ? 's' : ''} Found
+            {loading ? 'Loading…' : `${filtered.length} Result${filtered.length !== 1 ? 's' : ''} Found`}
           </h2>
         </div>
-        <span style={{ fontSize: 11, fontWeight: 700, background: '#eff6ff', color: '#2563eb', border: '1px solid #bfdbfe', borderRadius: 100, padding: '2px 10px', marginLeft: 2 }}>
-          {filtered.length}
-        </span>
+        {!loading && (
+          <span style={{ fontSize: 11, fontWeight: 700, background: '#eff6ff', color: '#2563eb', border: '1px solid #bfdbfe', borderRadius: 100, padding: '2px 10px', marginLeft: 2 }}>
+            {filtered.length}
+          </span>
+        )}
       </div>
 
       {/* Grid */}
-      {filtered.length === 0 ? (
+      {loading ? (
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          padding: '64px 24px', gap: 10,
+        }}>
+          <Loader2 size={22} style={{ color: '#2563eb', animation: 'spin 1s linear infinite' }} />
+          <span style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: 500 }}>Loading complaints…</span>
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        </div>
+      ) : filtered.length === 0 ? (
         <div
           style={{
             background: '#fff', borderRadius: 16,

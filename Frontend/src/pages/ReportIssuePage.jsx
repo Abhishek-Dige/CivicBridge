@@ -5,23 +5,21 @@ import ComplaintForm from '../components/citizen/ComplaintForm';
 import { useComplaints } from '../context/ComplaintsContext';
 import { CheckCircle2 } from 'lucide-react';
 
-const generateTrackingId = () => `CB-${Math.floor(100000 + Math.random() * 900000)}`;
-
 const ReportIssuePage = () => {
   const { addComplaint } = useComplaints();
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
-  const handleSubmit = (formData) => {
-    addComplaint({
-      id: Date.now(),
-      trackingId: generateTrackingId(),
-      ...formData,
-      status: 'Pending',
-      createdAt: new Date().toISOString(),
-    });
-    setSubmitted(true);
-    setTimeout(() => navigate('/citizen/complaints'), 1800);
+  const handleSubmit = async (formData) => {
+    try {
+      setSubmitError('');
+      await addComplaint(formData);
+      setSubmitted(true);
+      setTimeout(() => navigate('/citizen/complaints'), 1800);
+    } catch (err) {
+      setSubmitError(err.message || 'Failed to submit complaint. Please try again.');
+    }
   };
 
   return (
@@ -53,6 +51,17 @@ const ReportIssuePage = () => {
               Fill in the details and we'll forward your complaint to the relevant department.
             </p>
           </div>
+
+          {submitError && (
+            <div style={{
+              background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 12,
+              padding: '12px 16px', marginBottom: 16, color: '#991b1b',
+              fontSize: '0.875rem', fontWeight: 500,
+            }}>
+              {submitError}
+            </div>
+          )}
+
           <div
             style={{
               background: '#fff',
