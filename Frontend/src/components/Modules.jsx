@@ -86,7 +86,7 @@ const Modules = () => {
               </li>
             </ul>
             
-            <Link to="/citizen/report" className="btn btn-primary" style={{marginTop: '2rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center'}}>
+            <Link to="/citizen/dashboard" className="btn btn-primary" style={{marginTop: '2rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center'}}>
               Report an Issue <ArrowRight size={18} style={{marginLeft: '0.5rem'}} />
             </Link>
           </div>
