@@ -14,8 +14,12 @@ const CATEGORY_STYLES = {
 
 const formatTimeAgo = (iso) => {
   const diff = Date.now() - new Date(iso).getTime();
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  if (days === 0) return 'TODAY';
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'JUST NOW';
+  if (mins < 60) return `${mins}m AGO`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours}h AGO`;
+  const days = Math.floor(hours / 24);
   if (days === 1) return 'YESTERDAY';
   return `${days} DAYS AGO`;
 };
@@ -26,8 +30,8 @@ const ComplaintCard = ({ complaint }) => {
 
   const cat = CATEGORY_STYLES[complaint.category] || CATEGORY_STYLES.Roads;
   const Icon = cat.icon;
-  const upvoteCount = complaint.upvotedBy?.length || 0;
-  const hasUpvoted = user ? complaint.upvotedBy?.includes(user.id) : false;
+  const upvoteCount = complaint.upvoteCount || 0;
+  const hasUpvoted = complaint.hasUpvoted || false;
 
   return (
     <div
@@ -72,7 +76,7 @@ const ComplaintCard = ({ complaint }) => {
       <Link to={`/citizen/complaints/${complaint.id}`} style={{ display: 'block', textDecoration: 'none' }}>
         <div style={{
           width: '100%',
-          aspectRatio: '4/3', /* Standard IG photo ratio */
+          aspectRatio: '4/3',
           background: complaint.imageUrl ? `url(${complaint.imageUrl}) center/cover no-repeat` : cat.bg,
           display: 'flex',
           flexDirection: 'column',
@@ -105,13 +109,17 @@ const ComplaintCard = ({ complaint }) => {
       <div style={{ padding: '12px 16px 8px', display: 'flex', alignItems: 'center', gap: 16 }}>
         <button
           onClick={() => toggleUpvote(complaint.id)}
+          disabled={!user}
           style={{
             display: 'flex', alignItems: 'center', gap: 6,
-            background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+            background: 'none', border: 'none',
+            cursor: user ? 'pointer' : 'default',
+            padding: 0,
             color: hasUpvoted ? '#10b981' : '#0f172a',
+            opacity: user ? 1 : 0.5,
             transition: 'color 0.2s',
           }}
-          title={hasUpvoted ? "Remove Upvote" : "Upvote"}
+          title={!user ? 'Login to upvote' : hasUpvoted ? 'Remove Upvote' : 'Upvote'}
         >
           <ArrowUp
             size={26}

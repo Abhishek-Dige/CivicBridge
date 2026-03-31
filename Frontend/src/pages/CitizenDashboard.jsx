@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import CitizenLayout from '../components/citizen/CitizenLayout';
 import ComplaintCard from '../components/citizen/ComplaintCard';
 import { useComplaints } from '../context/ComplaintsContext';
-import { Route, Droplets, Zap, Trash2, PlusCircle, TrendingUp } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { Route, Droplets, Zap, Trash2, PlusCircle, Loader2 } from 'lucide-react';
 
 const CATEGORIES = [
   { label: 'Roads', icon: Route, bg: '#f0f9ff', color: '#0ea5e9', text: '#0369a1' },
@@ -19,7 +20,8 @@ const STAT_CONFIG = [
 ];
 
 const CitizenDashboard = () => {
-  const { complaints } = useComplaints();
+  const { complaints, loading } = useComplaints();
+  const { user } = useAuth();
 
   const stats = {
     Pending: complaints.filter((c) => c.status === 'Pending').length,
@@ -48,7 +50,7 @@ const CitizenDashboard = () => {
             Welcome back
           </p>
           <h2 style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '-0.01em', margin: '0 0 8px', color: '#fff', lineHeight: 1.3 }}>
-            Citizen Dashboard 👋
+            {user?.name || 'Citizen'} 👋
           </h2>
           <p style={{
             fontSize: '0.8125rem', color: 'rgba(255,255,255,0.85)', lineHeight: 1.6,
@@ -165,7 +167,16 @@ const CitizenDashboard = () => {
           </Link>
         </div>
 
-        {complaints.length === 0 ? (
+        {loading ? (
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '48px 24px', gap: 10,
+          }}>
+            <Loader2 size={22} style={{ color: '#2563eb', animation: 'spin 1s linear infinite' }} />
+            <span style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: 500 }}>Loading complaints…</span>
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+          </div>
+        ) : complaints.length === 0 ? (
           <div
             style={{
               background: '#fff', borderRadius: 16, border: '1px solid rgba(226,232,240,0.6)',
